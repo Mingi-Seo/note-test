@@ -12,161 +12,86 @@ function buttonInit()
 				</div>";
 
 	$('.note-toolbar.btn-toolbar').append(temp);
-
-	document.getElementsByClassName("note-editor").id = "noteEditor";
 }
 
 function getDom(id)
 {
     return document.getElementById(id);
 }
-/*
+
 function clickFullscreen()
 {
     var viewFullScreen = getDom("fullScreen");
+
+    $('.note-editor').attr("id", "screen");
+    $('.note-statusbar').attr("id", "bar");
     
-    // if (viewFullScreen)
     if (onFullscreen == 0)
     {
-        viewFullScreen.addEventListener("click", function ()
+        // var docElm = document.documentElement;
+        var docElm = getDom("screen");
+
+        getDom("bar").className = "hide";
+        onFullscreen = 1;
+
+        if (docElm.requestFullscreen)
         {
-            // var docElm = document.documentElement;
-            var docElm = document.getElementsByClassName("note-editor");
+            docElm.requestFullscreen();
+        }
 
-            console.log(docElm);
+        else if (docElm.msRequestFullscreen)
+        {
+            docElm.msRequestFullscreen();
+        }
 
-            onFullscreen = 1;
+        else if (docElm.mozRequestFullScreen)
+        {
+            docElm.mozRequestFullScreen();
+        }
 
-            if (docElm.requestFullscreen)
-            {
-                docElm.requestFullscreen();
-            }
+        else if (docElm.webkitRequestFullScreen)
+        {
+            docElm.webkitRequestFullScreen();
+        }
 
-            else if (docElm.msRequestFullscreen)
-            {
-                docElm.msRequestFullscreen();
-            }
+        docElm.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
 
-            else if (docElm.mozRequestFullScreen)
-            {
-                docElm.mozRequestFullScreen();
-            }
-
-            else if (docElm.webkitRequestFullScreen)
-            {
-                docElm.webkitRequestFullScreen();
-            }
-
-            // docElm.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-        }, false);
+        $(window).resize(function()
+        {
+            $('#screen').width($(window).width());
+            $('#screen').height($(window).height());
+            $('.note-editable').width($(window).width());
+            $('.note-editable').height($(window).height());
+        });
     }
 
     else if (onFullscreen == 1)
     {
+        getDom("bar").className = "note-statusbar";
     	onFullscreen = 0;
 
-    	viewFullScreen.addEventListener("click", function ()
+        if (document.exitFullscreen)
         {
-            if (document.exitFullscreen)
-            {
-                document.exitFullscreen();
-            }
+            document.exitFullscreen();
+        }
 
-            else if (document.msExitFullscreen)
-            {
-                document.msExitFullscreen();
-            }
-
-            else if (document.mozCancelFullScreen)
-            {
-                document.mozCancelFullScreen();
-            }
-
-            else if (document.webkitCancelFullScreen)
-            {
-                document.webkitCancelFullScreen();
-            }
-        }, false);
-    }
-}
-*/
-
-function clickFullscreen()
-{
-    var viewFullScreen = getDom("fullScreen");
-    var editorFullscreen = document.getElementsByClassName("note-editor");
-
-    console.log(editorFullscreen);
-
-    if (viewFullScreen && editorFullscreen) {
-        viewFullScreen.addEventListener("click", function (evt) {
-            if (editorFullscreen.requestFullscreen) {
-                editorFullscreen.requestFullscreen();
-            }
-            else if (editorFullscreen.msRequestFullscreen) {
-                editorFullscreen.msRequestFullscreen();
-            }
-            else if (editorFullscreen.mozRequestFullScreen) {
-                editorFullscreen.mozRequestFullScreen();
-            }
-            else if (editorFullscreen.webkitRequestFullScreen) {
-                editorFullscreen.webkitRequestFullScreen();
-                /*
-                    *Kept here for reference: keyboard support in full screen
-                    * marioVideo.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-                */
-            }
-        }, false);
-    }
-}
-
-function bind(elem, type, handler, capture)
-{
-    type = typeof type === 'string' ? type : '';
-    handler = typeof handler === 'function' ? handler : function () { ; };
-    capture = capture || false;
-
-    if (elem.addEventListener) {
-        elem.addEventListener(type, handler, capture);
-    }
-    else if (elem.attachEvent) {
-        elem.attachEvent('on' + type, handler);
-    }
-
-    return this;
-}
-/*
-function cancleFullscreen()
-{
-    var cancelFullScreen = getDom("cancel-fullscreen");
-
-    if (cancelFullScreen)
-    {
-        cancelFullScreen.addEventListener("click", function ()
+        else if (document.msExitFullscreen)
         {
-            if (document.exitFullscreen)
-            {
-                document.exitFullscreen();
-            }
+            document.msExitFullscreen();
+        }
 
-            else if (document.msExitFullscreen)
-            {
-                document.msExitFullscreen();
-            }
+        else if (document.mozCancelFullScreen)
+        {
+            document.mozCancelFullScreen();
+        }
 
-            else if (document.mozCancelFullScreen)
-            {
-                document.mozCancelFullScreen();
-            }
-
-            else if (document.webkitCancelFullScreen)
-            {
-                document.webkitCancelFullScreen();
-            }
-        }, false);
+        else if (document.webkitCancelFullScreen)
+        {
+            document.webkitCancelFullScreen();
+        }
     }
 }
-*/
+
 function clickNewnote()
 {
     setHtmlCode("");
@@ -180,8 +105,6 @@ function clickSaveHTML()
     var docElm = currentStateDoc();
     var charset = "utf-8";
     var html_filename = prompt("파일 이름을 입력하세요.");
-
-//console.log(docElm);
 
     if (html_filename == null)
         return ;
