@@ -19,6 +19,22 @@ function getDom(id)
     return document.getElementById(id);
 }
 
+function currentStateDoc()
+{
+    var docElm = "<!doctype html>\
+                <html>\
+                    <head>\
+                        <meta charset='utf-8'>\
+                        <title> My Note </title>\
+                    </head>\
+                    <body>"
+                + getHtmlCode(); +
+                    "</body>\
+                </html>";
+
+    return docElm;
+}
+
 function clickFullscreen()
 {
     var viewFullScreen = getDom("fullScreen");
@@ -101,7 +117,7 @@ function clickNewnote()
 
 function clickSaveHTML()
 {
-//    var docElm = document.documentElement.innerHTML;
+    //var docElm = document.documentElement.innerHTML;
     var docElm = currentStateDoc();
     var charset = "utf-8";
     var html_filename = prompt("파일 이름을 입력하세요.");
@@ -115,22 +131,6 @@ function clickSaveHTML()
     html_filename = html_filename + ".html";
 
     saveAs(new Blob([docElm], {type: "text/plain;charset=" + charset}), html_filename);
-}
-
-function currentStateDoc()
-{
-    var docElm = "<!doctype html>\
-                <html>\
-                    <head>\
-                        <meta charset='uft-8'>\
-                        <title> My Note </title>\
-                    </head>\
-                    <body>"
-                + getHtmlCode(); +
-                    "</body>\
-                </html>";
-
-    return docElm;
 }
 
 buttonInit();
