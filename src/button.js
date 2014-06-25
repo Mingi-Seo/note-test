@@ -176,7 +176,8 @@ function clickNewnote()
 
 function clickSaveHTML()
 {
-    var docElm = document.documentElement.innerHTML;
+//    var docElm = document.documentElement.innerHTML;
+    var docElm = currentStateDoc();
     var charset = "utf-8";
     var html_filename = prompt("파일 이름을 입력하세요.");
 
@@ -190,10 +191,23 @@ function clickSaveHTML()
 
     html_filename = html_filename + ".html";
 
-console.log("123123123");
-console.log(html_filename);
-
     saveAs(new Blob([docElm], {type: "text/plain;charset=" + charset}), html_filename);
+}
+
+function currentStateDoc()
+{
+    var docElm = "<!doctype html>\
+                <html>\
+                    <head>\
+                        <meta charset='uft-8'>\
+                        <title> My Note </title>\
+                    </head>\
+                    <body>"
+                + getHtmlCode(); +
+                    "</body>\
+                </html>";
+
+    return docElm;
 }
 
 buttonInit();
